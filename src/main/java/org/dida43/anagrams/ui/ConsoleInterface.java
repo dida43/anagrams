@@ -18,12 +18,13 @@ public class ConsoleInterface {
     }
 
     public int getChoice() {
-        return scanner.nextInt();
+        int choice = scanner.nextInt();
+        scanner.nextLine();  // Consume the newline left-over
+        return choice;
     }
 
     public String getInputText(String message) {
         logger.info(message);
-        scanner.nextLine();  // Consume the newline left-over
         return scanner.nextLine().trim();
     }
 
