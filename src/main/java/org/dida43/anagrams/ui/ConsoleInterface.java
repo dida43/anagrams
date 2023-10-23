@@ -2,15 +2,19 @@ package org.dida43.anagrams.ui;
 
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ConsoleInterface {
 
     private final Scanner scanner = new Scanner(System.in);
+    private final Logger logger = LoggerFactory.getLogger(ConsoleInterface.class);
 
     public void displayMenu() {
-        System.out.println("Select an option:");
-        System.out.println("1. Check if two texts are anagrams");
-        System.out.println("2. Get all anagrams for a given text");
-        System.out.println("3. Exit");
+        logger.info("Select an option:");
+        logger.info("1. Check if two texts are anagrams");
+        logger.info("2. Get all anagrams for a given text");
+        logger.info("3. Exit");
     }
 
     public int getChoice() {
@@ -18,12 +22,12 @@ public class ConsoleInterface {
     }
 
     public String getInputText(String message) {
-        System.out.println(message);
+        logger.info(message);
         scanner.nextLine();  // Consume the newline left-over
         return scanner.nextLine().trim();
     }
 
     public void displayMessage(String message) {
-        System.out.println(message);
+        logger.info(message);
     }
 }
