@@ -54,6 +54,13 @@
       <version>5.8.2</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- Use system rules to input to console and parse output in tests -->
+    <dependency>
+      <groupId>com.github.stefanbirkner</groupId>
+      <artifactId>system-rules</artifactId>
+      <version>1.19.0</version>
+    </dependency>
   </dependencies>
 
   <build>

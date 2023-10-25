@@ -14,7 +14,7 @@ public class MainApp {
         app.run();
     }
 
-    private void run() {
+    void run() {
         boolean isRunning = true;
         while (isRunning) {
             consoleInterface.displayMenu();
@@ -26,7 +26,7 @@ public class MainApp {
                 case EXIT -> isRunning = false;
             }
         }
-        exitApplication();
+        consoleInterface.displayExitMessage();
     }
 
     private void processAnagramCheck() {
@@ -53,10 +53,5 @@ public class MainApp {
         String text = consoleInterface.displayGetTextForAnagramsPrompt();
         var anagrams = anagramService.getAnagramsForText(text);
         consoleInterface.displayFoundAnagramsMessage(anagrams);
-    }
-
-    private void exitApplication() {
-        consoleInterface.displayExitMessage();
-        System.exit(0);
     }
 }
