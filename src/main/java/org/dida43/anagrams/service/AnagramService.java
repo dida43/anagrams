@@ -4,7 +4,7 @@ import java.text.Normalizer;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -36,11 +36,16 @@ public class AnagramService {
     }
 
     public void storeAnagramPair(String firstText, String secondText) {
-        anagramRecords.computeIfAbsent(firstText, k -> new HashSet<>()).add(secondText);
-        anagramRecords.computeIfAbsent(secondText, k -> new HashSet<>()).add(firstText);
+        String anagramKey = sorted(normalizeString(cleanString(firstText)));
+        anagramRecords.computeIfAbsent(anagramKey, k -> new LinkedHashSet<>()).add(firstText);
+        anagramRecords.get(anagramKey).add(secondText);
     }
 
     public Set<String> getAnagramsForText(String text) {
-        return anagramRecords.getOrDefault(text, Collections.emptySet());
+        String anagramKey = sorted(normalizeString(cleanString(text)));
+        // Create a new copy of the original set
+        Set<String> allAnagramRecords = new LinkedHashSet<>(anagramRecords.getOrDefault(anagramKey, Collections.emptySet()));
+        allAnagramRecords.remove(text);
+        return allAnagramRecords;
     }
 }
