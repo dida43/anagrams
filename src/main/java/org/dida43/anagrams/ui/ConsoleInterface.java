@@ -15,18 +15,10 @@ public class ConsoleInterface {
         2. Get all anagrams for a given text
         3. Exit
         """;
-    private static final String INVALID_INPUT_MSG = "Invalid input. Please try again.";
-    private static final String EXIT_MSG = "Exiting...";
-    private static final String POSITIVE_ANAGRAM_MSG = "They are anagrams.";
-    private static final String NEGATIVE_ANAGRAM_MSG = "They are not anagrams.";
-    private static final String ANAGRAMS_FOUND_MSG = "Anagrams found: {}";
-    private static final String FIRST_TEXT_PROMPT = "Enter the first text:";
-    private static final String SECOND_TEXT_PROMPT = "Enter the second text:";
-    private static final String ANAGRAMS_TEXT_PROMPT = "Enter the text to find its anagrams:";
+
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleInterface.class);
 
     private final Scanner scanner = new Scanner(System.in);
-    private final Logger logger = LoggerFactory.getLogger(ConsoleInterface.class);
-
 
     public void displayMenu() {
         logger.info(MENU_OPTIONS);
@@ -35,51 +27,53 @@ public class ConsoleInterface {
     public MenuChoice getChoice() {
         try {
             int choice = scanner.nextInt();
-            scanner.nextLine();  // Consume the newline left-over
+            consumeNewline();
             return MenuChoice.fromChoiceValue(choice);
         } catch (InputMismatchException e) {
-            scanner.nextLine();  // Consume the newline left-over
+            consumeNewline();
+            displayInvalidInputMessage();
             return MenuChoice.INVALID_CHOICE;
         }
     }
 
-    private String getInputText() {
-        return scanner.nextLine().trim();
+    private void consumeNewline() {
+        scanner.nextLine();
     }
 
     public void displayInvalidInputMessage() {
-        logger.info(INVALID_INPUT_MSG);
+        logger.info("Invalid input. Please try again.");
     }
 
     public void displayExitMessage() {
-        logger.info(EXIT_MSG);
-        scanner.close();
+        logger.info("Exiting...");
     }
 
     public void displayPositiveAnagramMessage() {
-        logger.info(POSITIVE_ANAGRAM_MSG);
+        logger.info("They are anagrams.");
     }
 
     public void displayNegativeAnagramMessage() {
-        logger.info(NEGATIVE_ANAGRAM_MSG);
+        logger.info("They are not anagrams.");
     }
 
     public void displayFoundAnagramsMessage(Set<String> anagrams) {
-        logger.info(ANAGRAMS_FOUND_MSG, anagrams);
+        logger.info("Anagram app records for provided text: {}", anagrams);
     }
 
     public String getFirstText() {
-        logger.info(FIRST_TEXT_PROMPT);
-        return getInputText();
+        return promptForInput("Enter the first text:");
     }
 
     public String getSecondText() {
-        logger.info(SECOND_TEXT_PROMPT);
-        return getInputText();
+        return promptForInput("Enter the second text:");
     }
 
     public String getTextForAnagrams() {
-        logger.info(ANAGRAMS_TEXT_PROMPT);
-        return getInputText();
+        return promptForInput("Enter the text to find its anagrams:");
+    }
+
+    private String promptForInput(String promptMessage) {
+        logger.info(promptMessage);
+        return scanner.nextLine().trim();
     }
 }

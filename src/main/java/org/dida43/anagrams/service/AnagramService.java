@@ -12,20 +12,44 @@ public class AnagramService {
 
     private final Map<String, Set<String>> anagramRecords = new HashMap<>();
 
-    public boolean areAnagrams(String s1, String s2) {
-        String normalizedS1 = normalizeString(cleanString(s1));
-        String normalizedS2 = normalizeString(cleanString(s2));
+    public boolean areAnagrams(String firstText, String secondText) {
+        String normalizedFirstText = processStringForAnagramComparison(firstText);
+        String normalizedSecondText = processStringForAnagramComparison(secondText);
 
-        return sorted(normalizedS1).equals(sorted(normalizedS2));
+        return normalizedFirstText.equals(normalizedSecondText);
     }
 
-    private String cleanString(String s) {
-        // Remove all non-letter characters and convert to lowercase
+    public void storeAnagramPair(String firstText, String secondText) {
+        String anagramKey = processStringForAnagramComparison(firstText);
+
+        storeToAnagramRecords(anagramKey, firstText);
+        storeToAnagramRecords(anagramKey, secondText);
+    }
+
+    public Set<String> getAnagramsForText(String text) {
+        String anagramKey = processStringForAnagramComparison(text);
+
+        Set<String> allAnagramRecordsForKey = new LinkedHashSet<>(
+            anagramRecords.getOrDefault(anagramKey, Collections.emptySet())
+        );
+        //remove provided anagram from results
+        allAnagramRecordsForKey.remove(text);
+
+        return allAnagramRecordsForKey;
+    }
+
+    private String processStringForAnagramComparison(String s) {
+        return sorted(normalize(clean(s)));
+    }
+
+    private String clean(String s) {
+        //retain only alphabetic characters and remove everything else
         return s.replaceAll("[^\\p{L}]", "").toLowerCase();
     }
 
-    private String normalizeString(String s) {
-        // Normalize Unicode text to separate special characters from their base letters
+    private String normalize(String s) {
+        //it will decompose characters into their canonical forms.
+        // For example, the character ć (c with an acute accent) would be normalized into two separate characters: c and ´
         return Normalizer.normalize(s, Normalizer.Form.NFD);
     }
 
@@ -35,17 +59,7 @@ public class AnagramService {
         return new String(charArray);
     }
 
-    public void storeAnagramPair(String firstText, String secondText) {
-        String anagramKey = sorted(normalizeString(cleanString(firstText)));
-        anagramRecords.computeIfAbsent(anagramKey, k -> new LinkedHashSet<>()).add(firstText);
-        anagramRecords.get(anagramKey).add(secondText);
-    }
-
-    public Set<String> getAnagramsForText(String text) {
-        String anagramKey = sorted(normalizeString(cleanString(text)));
-        // Create a new copy of the original set
-        Set<String> allAnagramRecords = new LinkedHashSet<>(anagramRecords.getOrDefault(anagramKey, Collections.emptySet()));
-        allAnagramRecords.remove(text);
-        return allAnagramRecords;
+    private void storeToAnagramRecords(String key, String value) {
+        anagramRecords.computeIfAbsent(key, k -> new LinkedHashSet<>()).add(value);
     }
 }
