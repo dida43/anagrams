@@ -16,6 +16,7 @@ class ConsoleInterfaceTest {
     @CsvSource({
         "1, CHECK_ANAGRAMS",
         "2, DISPLAY_ANAGRAMS",
+        "3, EXIT",
         "5, INVALID_CHOICE",
         "asdf, INVALID_CHOICE"
     })
