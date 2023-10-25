@@ -1,5 +1,6 @@
 package org.dida43.anagrams.ui;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import org.slf4j.Logger;
@@ -17,10 +18,15 @@ public class ConsoleInterface {
         logger.info("3. Exit");
     }
 
-    public int getChoice() {
-        int choice = scanner.nextInt();
-        scanner.nextLine();  // Consume the newline left-over
-        return choice;
+    public MenuChoice getChoice() {
+        try {
+            int choice = scanner.nextInt();
+            scanner.nextLine();  // Consume the newline left-over
+            return MenuChoice.fromChoiceValue(choice);
+        } catch (InputMismatchException e) {
+            scanner.nextLine();  // Consume the newline left-over
+            return MenuChoice.INVALID_CHOICE;
+        }
     }
 
     public String getInputText(String message) {

@@ -2,6 +2,7 @@ package org.dida43.anagrams;
 
 import org.dida43.anagrams.service.AnagramService;
 import org.dida43.anagrams.ui.ConsoleInterface;
+import org.dida43.anagrams.ui.MenuChoice;
 
 public class MainApp {
 
@@ -16,16 +17,16 @@ public class MainApp {
     private void run() {
         while (true) {
             consoleInterface.displayMenu();
-            int choice = consoleInterface.getChoice();
-            
+            MenuChoice choice = consoleInterface.getChoice();
+
             switch (choice) {
-                case 1 -> checkAnagrams();
-                case 2 -> displayAnagrams();
-                case 3 -> {
+                case INVALID_CHOICE -> consoleInterface.displayMessage("Invalid choice! Try again.");
+                case CHECK_ANAGRAMS -> checkAnagrams();
+                case DISPLAY_ANAGRAMS -> displayAnagrams();
+                case EXIT -> {
                     consoleInterface.displayMessage("Exiting...");
                     return;
                 }
-                default -> consoleInterface.displayMessage("Invalid choice! Try again.");
             }
         }
     }
