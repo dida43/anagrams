@@ -23,6 +23,6 @@ public enum MenuChoice {
                 return menuChoice;
             }
         }
-        return null;
+        return INVALID_CHOICE;
     }
 }

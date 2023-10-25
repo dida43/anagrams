@@ -7,7 +7,7 @@ import org.dida43.anagrams.ui.MenuChoice;
 public class MainApp {
 
     private final AnagramService anagramService = new AnagramService();
-    private final ConsoleInterface consoleInterface = new ConsoleInterface();
+    private final ConsoleInterface consoleInterface = new ConsoleInterface(System.in);
 
     public static void main(String[] args) {
         MainApp app = new MainApp();
