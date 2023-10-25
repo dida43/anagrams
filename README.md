@@ -9,7 +9,7 @@ of anagrams for the provided string.
 
 ## Requirements
 
-User should have Maven build tool and Java (JDK, minimum version 16) installed on the system. It may
+User should have Maven build tool and Java (JDK, minimum version 17) installed on the system. It may
 be worth noting that the application was developed in Java 17 and tested using Apache Maven 3.6.1 on
 MacOS. IDE used for development was IntelliJ IDEA.
 Main focus of the application code is on code readability.
