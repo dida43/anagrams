@@ -20,11 +20,11 @@ public class MainApp {
             MenuChoice choice = consoleInterface.getChoice();
 
             switch (choice) {
-                case INVALID_CHOICE -> consoleInterface.displayMessage("Invalid choice! Try again.");
+                case INVALID_CHOICE -> consoleInterface.displayInvalidInputMessage();
                 case CHECK_ANAGRAMS -> checkAnagrams();
                 case DISPLAY_ANAGRAMS -> displayAnagrams();
                 case EXIT -> {
-                    consoleInterface.displayMessage("Exiting...");
+                    consoleInterface.displayExitMessage();
                     return;
                 }
             }
@@ -32,20 +32,20 @@ public class MainApp {
     }
 
     private void checkAnagrams() {
-        String firstText = consoleInterface.getInputText("Enter first text:");
-        String secondText = consoleInterface.getInputText("Enter second text:");
+        String firstText = consoleInterface.getFirstText();
+        String secondText = consoleInterface.getSecondText();
 
         if (anagramService.areAnagrams(firstText, secondText)) {
-            consoleInterface.displayMessage("They are anagrams!");
+            consoleInterface.displayPositiveAnagramMessage();
             anagramService.storeAnagramPair(firstText, secondText);
         } else {
-            consoleInterface.displayMessage("They are not anagrams.");
+            consoleInterface.displayNegativeAnagramMessage();
         }
     }
 
     private void displayAnagrams() {
-        String text = consoleInterface.getInputText("Enter the text to find its anagrams:");
+        String text = consoleInterface.getTextForAnagrams();
         var anagrams = anagramService.getAnagramsForText(text);
-        consoleInterface.displayMessage("Anagrams: " + anagrams);
+        consoleInterface.displayFoundAnagramsMessage(anagrams);
     }
 }
