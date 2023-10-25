@@ -1,70 +1,57 @@
 package org.dida43.anagrams;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
-import org.junit.contrib.java.lang.system.SystemOutRule;
+import com.github.stefanbirkner.systemlambda.SystemLambda;
 
-import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.emptyStandardInputStream;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
 
-public class MainAppSystemTest {
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-    @Rule
-    public final TextFromStandardInputStream systemInMock = emptyStandardInputStream();
-
-    @Rule
-    public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
+class MainAppSystemTest {
 
     @Test
-    public void testPositiveAnagramCheck() {
-        systemInMock.provideLines("1", "listen", "silent", "3");
+    void testPositiveAnagramCheck() throws Exception {
+        String output = SystemLambda
+            .tapSystemErrAndOut(() ->
+                SystemLambda
+                    .withTextFromSystemIn("1", "listen", "silent", "3")
+                    .execute(this::runApp));
 
-        runApp();
-
-        assertTrue(systemOutRule.getLog().contains("They are anagrams."));
+        assertTrue(output.contains("They are anagrams."));
     }
 
     @Test
-    public void testNegativeAnagramCheck() {
-        systemInMock.provideLines("1", "listen", "listening", "3");
+    void testNegativeAnagramCheck() throws Exception {
+        String output = SystemLambda
+            .tapSystemErrAndOut(() ->
+                SystemLambda
+                    .withTextFromSystemIn("1", "listen", "listening", "3")
+                    .execute(this::runApp));
 
-        runApp();
-
-        assertTrue(systemOutRule.getLog().contains("They are not anagrams."));
+        assertTrue(output.contains("They are not anagrams."));
     }
 
     @Test
-    public void testAnagramRecords() {
-        systemInMock.provideLines(
-            "1",
-            "artist",
-            "strait",
-            "1",
-            "artist",
-            "not an anagram",
-            "1",
-            "artist",
-            "traits",
-            "2",
-            "artist",
-            "2",
-            "strait",
-            "2",
-            "not an anagram",
-            "3"
-        );
+    void testAnagramRecords() throws Exception {
+        String output = SystemLambda
+            .tapSystemErrAndOut(() ->
+                SystemLambda
+                    .withTextFromSystemIn(
+                        "1", "artist", "strait",
+                        "1", "artist", "not an anagram",
+                        "1", "artist", "traits",
+                        "2", "artist",
+                        "2", "strait",
+                        "2", "not an anagram",
+                        "3")
+                    .execute(this::runApp));
 
-        runApp();
-
-        assertTrue(systemOutRule.getLog().contains("[strait, traits]"));
-        assertTrue(systemOutRule.getLog().contains("[artist, traits]"));
-        assertTrue(systemOutRule.getLog().contains("[]"));
+        assertTrue(output.contains("[strait, traits]"));
+        assertTrue(output.contains("[artist, traits]"));
+        assertTrue(output.contains("[]"));
     }
 
-    private static void runApp() {
+    private void runApp() {
         MainApp app = new MainApp();
         app.run();
     }
-
 }
