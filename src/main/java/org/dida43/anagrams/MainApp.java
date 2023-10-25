@@ -22,7 +22,7 @@ public class MainApp {
             switch (choice) {
                 case INVALID_CHOICE -> consoleInterface.displayInvalidInputMessage();
                 case CHECK_ANAGRAMS -> processAnagramCheck();
-                case DISPLAY_ANAGRAMS -> displayFoundAnagrams();
+                case ANAGRAMS_FOR_GIVEN_TEXT -> showAnagramsForGivenText();
                 case EXIT -> isRunning = false;
             }
         }
@@ -30,8 +30,8 @@ public class MainApp {
     }
 
     private void processAnagramCheck() {
-        String firstText = consoleInterface.getFirstText();
-        String secondText = consoleInterface.getSecondText();
+        String firstText = consoleInterface.displayGetFirstTextPrompt();
+        String secondText = consoleInterface.displayGetSecondTextPrompt();
 
         if (areStringsAnagrams(firstText, secondText)) {
             consoleInterface.displayPositiveAnagramMessage();
@@ -49,8 +49,8 @@ public class MainApp {
         anagramService.storeAnagramPair(text1, text2);
     }
 
-    private void displayFoundAnagrams() {
-        String text = consoleInterface.getTextForAnagrams();
+    private void showAnagramsForGivenText() {
+        String text = consoleInterface.displayGetTextForAnagramsPrompt();
         var anagrams = anagramService.getAnagramsForText(text);
         consoleInterface.displayFoundAnagramsMessage(anagrams);
     }

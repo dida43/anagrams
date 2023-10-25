@@ -4,7 +4,7 @@ public enum MenuChoice {
 
     INVALID_CHOICE(0),
     CHECK_ANAGRAMS(1),
-    DISPLAY_ANAGRAMS(2),
+    ANAGRAMS_FOR_GIVEN_TEXT(2),
     EXIT(3);
 
     private final int choiceValue;

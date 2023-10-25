@@ -15,7 +15,7 @@ class ConsoleInterfaceTest {
     @ParameterizedTest
     @CsvSource({
         "1, CHECK_ANAGRAMS",
-        "2, DISPLAY_ANAGRAMS",
+        "2, ANAGRAMS_FOR_GIVEN_TEXT",
         "3, EXIT",
         "5, INVALID_CHOICE",
         "asdf, INVALID_CHOICE"
@@ -35,7 +35,7 @@ class ConsoleInterfaceTest {
     void testGetFirstText(String input, String processedInput) {
         InputStream in = new ByteArrayInputStream((input + "\n").getBytes());
         consoleInterface = new ConsoleInterface(in);
-        assertEquals(processedInput, consoleInterface.getFirstText());
+        assertEquals(processedInput, consoleInterface.displayGetFirstTextPrompt());
     }
 
     @ParameterizedTest
@@ -47,7 +47,7 @@ class ConsoleInterfaceTest {
     void testGetSecondText(String input, String processedInput) {
         InputStream in = new ByteArrayInputStream((input + "\n").getBytes());
         consoleInterface = new ConsoleInterface(in);
-        assertEquals(processedInput, consoleInterface.getSecondText());
+        assertEquals(processedInput, consoleInterface.displayGetSecondTextPrompt());
     }
 
     @ParameterizedTest
@@ -59,6 +59,6 @@ class ConsoleInterfaceTest {
     void testGetTextForAnagrams(String input, String processedInput) {
         InputStream in = new ByteArrayInputStream((input + "\n").getBytes());
         consoleInterface = new ConsoleInterface(in);
-        assertEquals(processedInput, consoleInterface.getTextForAnagrams());
+        assertEquals(processedInput, consoleInterface.displayGetTextForAnagramsPrompt());
     }
 }

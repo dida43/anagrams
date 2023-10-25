@@ -64,15 +64,15 @@ public class ConsoleInterface {
         logger.info("Anagram app records for provided text: {}", anagrams);
     }
 
-    public String getFirstText() {
+    public String displayGetFirstTextPrompt() {
         return promptForInput("Enter the first text:");
     }
 
-    public String getSecondText() {
+    public String displayGetSecondTextPrompt() {
         return promptForInput("Enter the second text:");
     }
 
-    public String getTextForAnagrams() {
+    public String displayGetTextForAnagramsPrompt() {
         return promptForInput("Enter the text to find its anagrams:");
     }
 
